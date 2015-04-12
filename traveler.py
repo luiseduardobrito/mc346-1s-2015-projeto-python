@@ -13,8 +13,36 @@ class Node:
         print "%s (%d,%d)" % (self.name, self.lat, self.lng)
 
 
-def start():
+class Map:
+    size = 5
+    nodes = []
+    distances = []
 
+    def __init__(self, nodes):
+
+        # Get cities count
+        self.size = len(nodes)
+
+        # Initialize distances with 0 values
+        distances = [[0 for i in range(self.size)] for i in range(self.size)]
+
+    def put(self, origin, destination, distance):
+        self.distances[origin][destination] = distance
+
+    def get(self, origin, destination):
+        return self.distances[origin][destination]
+
+    def calculate_all(self):
+        for origin in self.nodes:
+            for destination in self.nodes:
+                self.put(self.calculate(origin, destination))
+
+    def calculate(self, origin, destination):
+        # TODO: Calculate distance
+        self.distances[origin][destination] = 0
+
+
+def start():
     origin = None
     nodes = []
 
@@ -30,7 +58,7 @@ def start():
 
         else:
 
-            coord = parsed[size-2:size]
+            coord = parsed[size - 2:size]
 
             name = ' '.join(parsed[0: size - 2])
             lat = coord[0]
@@ -38,5 +66,6 @@ def start():
 
         nodes.append(Node(name, lat, lng))
 
-    print nodes
-    print origin
+    map = Map(nodes)
+
+    # TODO: find minimum
