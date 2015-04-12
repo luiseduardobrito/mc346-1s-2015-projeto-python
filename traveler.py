@@ -57,6 +57,14 @@ class Map:
                 pow((origin.lat - destination.lat), 2)
                 + pow((origin.lng - destination.lng), 2))
 
+    def permutations(self, org):
+        tam = len(self.nodes)
+        filteredlist = sorted(self.nodes[0:org]+self.nodes[org+1:tam], key=self.getKey)
+        return filteredlist
+
+    def getKey(self, node):
+        return node.name
+
     def minimum(self, org):
 
         origin = None
@@ -94,4 +102,4 @@ def start():
 
     # print Map(nodes).minimum(origin)
 
-    print Map(nodes).distances
+    print Map(nodes).permutations(0)
