@@ -14,21 +14,27 @@ class Node:
 
 
 def start():
+
     origin = None
     nodes = []
 
     while True:
 
         raw = raw_input()
+        parsed = raw.split(' ')
+        size = len(parsed)
 
-        if len(raw) < 2:
-            origin = Node(input[0])
+        if len(parsed) < 2:
+            origin = Node(raw)
             break
 
         else:
-            name = raw[0]
-            lat = raw[1]
-            lng = raw[2]
+
+            coord = parsed[size-2:size]
+
+            name = ' '.join(parsed[0: size - 2])
+            lat = coord[0]
+            lng = coord[1]
 
         nodes.append(Node(name, lat, lng))
 
