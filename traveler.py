@@ -1,3 +1,5 @@
+import math
+
 class Node:
     name = ""
     lat = None
@@ -39,7 +41,10 @@ class Map:
 
     def calculate(self, origin, destination):
         # TODO: Calculate distance
-        self.distances[origin][destination] = 0
+        self.distances[origin][destination] = math.sqrt(pow((origin.lat - destination.lat), 2) + pow((origin.lng - destination.lng), 2))
+
+
+def start():
 
 
 def start():
