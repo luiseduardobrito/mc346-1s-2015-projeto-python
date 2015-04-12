@@ -1,4 +1,5 @@
 import math
+import itertools
 
 
 class Node:
@@ -64,8 +65,8 @@ class Map:
 
     def permutations(self, org):
         tam = len(self.nodes)
-        filteredlist = sorted(self.nodes[0:org] + self.nodes[org + 1:tam], key=self.getKey)
-        return filteredlist
+        filteredlist = sorted(self.nodes[0:org]+self.nodes[org+1:tam], key=self.getKey)
+        return itertools.permutations(filteredlist)
 
     def getKey(self, node):
         return node.name
