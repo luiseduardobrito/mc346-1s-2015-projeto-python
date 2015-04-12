@@ -1,5 +1,6 @@
 import math
 
+
 class Node:
     name = ""
     lat = None
@@ -7,12 +8,15 @@ class Node:
 
     def __init__(self, name, lat=None, lng=None):
         self.name = name
-        self.lat = lat
-        self.lng = lng
 
+        if lat is not None:
+            self.lat = float(lat)
+
+        if lng is not None:
+            self.lng = float(lng)
 
     def info(self):
-        print "%s (%d,%d)" % (self.name, self.lat, self.lng)
+        return "%s (%d,%d)" % (self.name, float(self.lat), float(self.lng))
 
 
 class Map:
@@ -24,9 +28,11 @@ class Map:
 
         # Get cities count
         self.size = len(nodes)
+        self.nodes = nodes
 
         # Initialize distances with 0 values
-        distances = [[0 for i in range(self.size)] for i in range(self.size)]
+        self.distances = [[0 for i in range(self.size)] for i in range(self.size)]
+        self.calculate_all()
 
     def put(self, origin, destination, distance):
         self.distances[origin][destination] = distance
@@ -35,16 +41,31 @@ class Map:
         return self.distances[origin][destination]
 
     def calculate_all(self):
-        for origin in self.nodes:
-            for destination in self.nodes:
-                self.put(self.calculate(origin, destination))
+        for origin in range(len(self.nodes)):
+            for destination in range(len(self.nodes)):
+                self.put(origin, destination, self.calculate(origin, destination))
 
-    def calculate(self, origin, destination):
-        # TODO: Calculate distance
-        self.distances[origin][destination] = math.sqrt(pow((origin.lat - destination.lat), 2) + pow((origin.lng - destination.lng), 2))
+    def calculate(self, o, d):
 
+        if o == d:
+            return 0
 
-def start():
+        else:
+            origin = self.nodes[o]
+            destination = self.nodes[d]
+            return math.sqrt(
+                pow((origin.lat - destination.lat), 2)
+                + pow((origin.lng - destination.lng), 2))
+
+    def minimum(self, org):
+
+        origin = None
+
+        for n in self.nodes:
+            if n == org:
+                origin = n
+
+        return origin.info()
 
 
 def start():
@@ -71,6 +92,6 @@ def start():
 
         nodes.append(Node(name, lat, lng))
 
-    map = Map(nodes)
+    # print Map(nodes).minimum(origin)
 
-    # TODO: find minimum
+    print Map(nodes).distances
