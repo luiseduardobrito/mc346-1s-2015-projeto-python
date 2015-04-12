@@ -65,21 +65,34 @@ class Map:
 
     def permutations(self, org):
         tam = len(self.nodes)
-        filteredlist = sorted(self.nodes[0:org]+self.nodes[org+1:tam], key=self.getKey)
-        return itertools.permutations(filteredlist)
+        filteredlist = sorted(self.nodes[0:org] + self.nodes[org + 1:tam], key=self.cmdName)
+        return list(itertools.permutations(filteredlist))
 
-    def getKey(self, node):
+    def routes(self, org):
+        perms = self.permutations(org)
+        return [([pi.name for pi in p], self.sum_distance(org, p)) for p in perms]
+
+    def sum_distance(self, org, perm):
+
+        total = 0
+        last = org
+
+        for p in perm:
+            total += self.get(last, self.index(p.name))
+            last = self.index(p.name)
+
+        return total
+
+    def cmdName(self, node):
         return node.name
 
+    def cmdDistance(self, node):
+        (path, distance) = node
+        return distance
+
     def minimum(self, org):
-
-        origin = None
-
-        for n in self.nodes:
-            if n == org:
-                origin = n
-
-        return origin.info()
+        possibilities = self.routes(org)
+        return sorted(possibilities, key=self.cmdDistance)
 
 
 def start():
@@ -108,4 +121,8 @@ def start():
 
     city_map = Map(nodes)
     org = city_map.index(origin.name)
-    print city_map.permutations(org)
+
+    (path, distance) = city_map.minimum(org)[0]
+
+    for p in path:
+        print p
