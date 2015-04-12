@@ -126,3 +126,6 @@ def start():
 
     for p in path:
         print p
+
+    print city_map.nodes[org].name
+    print "%.1f" % distance
