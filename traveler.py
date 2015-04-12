@@ -40,6 +40,11 @@ class Map:
     def get(self, origin, destination):
         return self.distances[origin][destination]
 
+    def index(self, name):
+        for origin in range(len(self.nodes)):
+            if self.nodes[origin].name == name:
+                return origin
+
     def calculate_all(self):
         for origin in range(len(self.nodes)):
             for destination in range(len(self.nodes)):
@@ -59,7 +64,7 @@ class Map:
 
     def permutations(self, org):
         tam = len(self.nodes)
-        filteredlist = sorted(self.nodes[0:org]+self.nodes[org+1:tam], key=self.getKey)
+        filteredlist = sorted(self.nodes[0:org] + self.nodes[org + 1:tam], key=self.getKey)
         return filteredlist
 
     def getKey(self, node):
@@ -100,6 +105,6 @@ def start():
 
         nodes.append(Node(name, lat, lng))
 
-    # print Map(nodes).minimum(origin)
-
-    print Map(nodes).permutations(0)
+    city_map = Map(nodes)
+    org = city_map.index(origin.name)
+    print city_map.permutations(org)
