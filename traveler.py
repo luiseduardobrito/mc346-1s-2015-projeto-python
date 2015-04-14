@@ -99,6 +99,8 @@ def start():
     origin = None
     nodes = []
 
+
+
     while True:
 
         raw = raw_input()
